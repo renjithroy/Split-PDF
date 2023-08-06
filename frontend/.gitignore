@@ -2,11 +2,9 @@
 
 # dependencies
 /node_modules
-.DS_Store
 /.pnp
 .pnp.js
-package-lock.json
-package.json
+
 # testing
 /coverage
 
