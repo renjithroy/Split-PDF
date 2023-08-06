@@ -1,4 +1,4 @@
-# Split-PDF Application
+# Split-PDF
 
 **Customize Your PDFs with the Split-PDF application!**
 
