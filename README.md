@@ -8,8 +8,8 @@ The Split-PDF application allows you to extract specific pages from your PDF doc
 
 Here are some screenshots of the Split-PDF app in action:
 
-![Select PDF](screenshots/select-pdf.png)
-![Select Pages To Download](screenshots/select-pages.png)
+<img src="screenshots/select-pdf.png" alt="Select PDF" width="400" />
+<img src="screenshots/select-pages.png" alt="Select Pages To Download" width="400" />
 
 ## How it works?
 
