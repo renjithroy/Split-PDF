@@ -16,10 +16,10 @@ export default function App() {
   // useEffect hook to fetch the number of pages when a PDF file is selected
   useEffect(() => {
     if (selectedFile) {
-      const reader = new FileReader();
+      const reader = new FileReader(); // Using client-side JS to read file.
 
-      reader.onload = async () => {
-        const pdfBuffer = reader.result;
+      reader.onload = async () => {  // after file reading is complete
+        const pdfBuffer = reader.result;  //contains the data that has been read from the file
         try {
           
           // Load the PDF document uploaded by user using pdf-lib
@@ -56,7 +56,6 @@ export default function App() {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
 
-
     if (selectedPages.length === 0) {
       setButtonText("Select at least one page to continue");
     } else {
@@ -76,7 +75,6 @@ export default function App() {
         ? [...prevSelectedPages, pageNumber]
         : prevSelectedPages.filter((p) => p !== pageNumber)
     );
-    // setButtonText("Download Modified PDF");
 
     // Check if any page is selected and update the buttonText accordingly
     if (isChecked && selectedPages.length === 0) {
@@ -89,6 +87,7 @@ export default function App() {
 
   // Function to handle form submission for PDF modification and download
   const handleSubmit = async (event) => {
+
     event.preventDefault();
 
     // Check if a PDF file has been selected before submitting the form
@@ -108,10 +107,11 @@ export default function App() {
 
     try {
       // Make a POST request to the backend to process the selected pages and return the modified PDF
-      const response = await axios.post("http://localhost:5000/api/upload", formData, {
+      // local version: http://localhost:5000/api/upload
+      const response = await axios.post("https://split-pdf-liart.vercel.app/api/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         params: selectedPagesData, // Pass selectedPagesData as query params
-        responseType: 'blob', // Tell axios to treat the response as a binary blob
+        responseType: 'blob', // Tell axios to treat the response as a blob
       });
 
       // Log the response from the backend to the console
@@ -143,7 +143,7 @@ export default function App() {
     setSelectedFile(null);
     setNumPages(null);
     setSelectedPages([]);
-    setButtonText("Select PDF to continue");
+    setButtonText("Select a PDF to continue");
   };
 
   // JSX to render the component and UI
@@ -172,7 +172,7 @@ export default function App() {
                       type="checkbox"
                       className="form-checkbox"
                       name="selectCheckbox"
-                      checked={selectedPages.includes(index + 1)}
+                      checked={selectedPages.includes(index + 1)} //checks if the current page index is present in the selectedPages array
                       onChange={(event) => handleCheckboxChange(event, index + 1)}
                     />
                   </label>

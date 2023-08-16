@@ -19,7 +19,7 @@ app.use(express.json());
 // Parse URL-encoded data in the request body
 app.use(express.urlencoded({ extended: true }));
 
-// Multer setup
+// Multer setup (adds .file to req body)
 
 // Define the destination and filename for storing uploaded files
 const storage = multer.diskStorage({
@@ -45,18 +45,17 @@ const uploadStorage = multer({
     storage: storage,
     fileFilter: pdfFileFilter,
 });
-
 // Routes
 
 // Route to handle PDF upload and modification
 app.post('/api/upload', uploadStorage.single('pdfFile'), async (req, res) => {
-    
+
     // Check if a file was uploaded
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    // Read the uploaded PDF file into a buffer
+    // Read the uploaded PDF file into a buffer / Stores the binary format of the uploaded file
     const pdfBuffer = await fs.promises.readFile(req.file.path);
 
     // Load the PDF document using pdf-lib
@@ -64,19 +63,19 @@ app.post('/api/upload', uploadStorage.single('pdfFile'), async (req, res) => {
 
     // Extract the selectedPages parameter from the query string
     const { selectedPages } = req.query;
-    // console.log("Selected Pages:", selectedPages);
+    // console.log("Selected Pages:", selectedPages); //
 
     // Create a new PDF document to store the modified pages
     const newPdfDoc = await PDFDocument.create();
 
     // Copy the selected pages from the original PDF to the new document
-    const copiedPages = await newPdfDoc.copyPages(pdfDoc, selectedPages.map(page => page - 1)); // [ 1, 2, 5] || Adjust index here
+    const copiedPages = await newPdfDoc.copyPages(pdfDoc, selectedPages.map(page => page - 1)); // Adjust index here || [ 1, 2, 3 ] -> [ 0, 1, 2 ]
     copiedPages.forEach(page => newPdfDoc.addPage(page));
 
     // Generate a unique filename for the modified PDF based on the current timestamp
     const timestamp = new Date().getTime();
     const fileName = `modified_${timestamp}.pdf`;
-    const outputPath = path.join('./uploads/', fileName);
+    const outputPath = path.join('./uploads/', fileName); // uploads/modified_1691714122146.pdf
 
     // Save the modified PDF document as bytes
     const pdfBytes = await newPdfDoc.save();
