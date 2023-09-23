@@ -11,16 +11,17 @@ body {
     padding: 0;
 }
 
-.logo{
+.logo {
     width: 50%;
     margin: auto;
     text-align: center;
 }
-.logo-text{
+
+.logo-text {
     font-size: 30px;
 }
 
-.pdf-letter-logo{
+.pdf-letter-logo {
     color: #c70039;
 }
 
@@ -39,7 +40,7 @@ body {
     border-radius: 20px;
 }
 
-.main:hover{
+.main:hover {
     background-color: rgba(255, 255, 255, 0.816)
 }
 
@@ -90,7 +91,7 @@ h1 {
     background-color: #02080ee3;
 }
 
-.pdf-letter-heading{
+.pdf-letter-heading {
     color: #c70039;
 }
 
@@ -111,7 +112,7 @@ h1 {
 
 .download-message.show {
     opacity: 1;
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateX(-50%) translateY(-50px);
 }
 
 /* Mobile responsiveness */
@@ -121,6 +122,15 @@ h1 {
         margin: 5vh auto;
         padding: 20px;
         border-radius: 4px;
+    }
+
+    .download-message {
+        font-size: 16px;
+        width: 300px;
+    }
+
+    .download-message.show {
+        transform: translateX(-50%) translateY(-70px);
     }
 
     h1 {
