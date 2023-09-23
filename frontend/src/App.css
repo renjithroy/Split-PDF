@@ -94,6 +94,26 @@ h1 {
     color: #c70039;
 }
 
+.download-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #c70039;
+    color: white;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.download-message.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-10px);
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .main {

@@ -9,6 +9,7 @@ export default function App() {
   const [numPages, setNumPages] = useState(null);
   const [selectedPages, setSelectedPages] = useState([]);
   const [buttonText, setButtonText] = useState("Select a PDF to continue");
+  const [downloadMessage, setDownloadMessage] = useState("");
   
   // Create a reference to the file input element
   const fileInputRef = useRef(null);
@@ -108,7 +109,6 @@ export default function App() {
     try {
       // Make a POST request to the backend to process the selected pages and return the modified PDF
       // local version: http://localhost:5000/api/upload
-      // vercel backend: https://split-pdf-liart.vercel.app/api/upload
       const response = await axios.post("https://split-pdf-backend.onrender.com/api/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         params: selectedPagesData, // Pass selectedPagesData as query params
@@ -127,6 +127,19 @@ export default function App() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      // Set the download message when the download is successful
+      setDownloadMessage("Modified file has been downloaded");
+
+      // Add the 'show' class to make the message visible
+      document.querySelector('.download-message').classList.add('show');
+
+      // Automatically remove the 'show' class after 3 seconds
+      setTimeout(() => {
+        document.querySelector('.download-message').classList.remove('show');
+        setDownloadMessage(""); // Clear the download message
+      }, 3000);
+
 
       // Reset the file input value after the form submission
       if (fileInputRef.current) {
@@ -147,7 +160,6 @@ export default function App() {
     setButtonText("Select a PDF to continue");
   };
 
-  // JSX to render the component and UI
   return (
     <div>
     <div className="logo"><p className="logo-text"><span>S</span>plit<span className="pdf-letter-logo">PDF</span></p></div>
@@ -186,6 +198,8 @@ export default function App() {
           <input type="submit" value={buttonText} className="btn btn-default" />
         </div>
       </form>
+        {/* Display the download message */}
+        <div className={`download-message ${downloadMessage ? 'show' : ''}`}>{downloadMessage}</div>
     </div>
     </div>
   );
