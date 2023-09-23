@@ -108,7 +108,8 @@ export default function App() {
     try {
       // Make a POST request to the backend to process the selected pages and return the modified PDF
       // local version: http://localhost:5000/api/upload
-      const response = await axios.post("https://split-pdf-liart.vercel.app/api/upload", formData, {
+      // vercel backend: https://split-pdf-liart.vercel.app/api/upload
+      const response = await axios.post("https://split-pdf.onrender.com", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         params: selectedPagesData, // Pass selectedPagesData as query params
         responseType: 'blob', // Tell axios to treat the response as a blob
