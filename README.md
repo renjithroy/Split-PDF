@@ -7,10 +7,13 @@ The Split-PDF application allows you to extract specific pages from your PDF doc
 ## Screenshots
 
 Here are some screenshots of the Split-PDF app in action:
+<!-- ![Image 1](https://i.imgur.com/m2hel3l.gif)
+![Image 2](https://i.imgur.com/8mCab8I.png)
+![Image 3](https://i.imgur.com/dw5CuIE.png) -->
 
-![Image 1](https://i.imgur.com/m2hel3l.gif)
-![Image 2](https://i.imgur.com/8mCab8I.png | width=600)
-![Image 3](https://i.imgur.com/dw5CuIE.png | width=600)
+<img src="https://i.imgur.com/m2hel3l.gif" alt="gif-demo" width="600" />
+<img src="https://i.imgur.com/8mCab8I.png" alt="Select PDF" width="600" />
+<img src="https://i.imgur.com/dw5CuIE.png" alt="Select Pages To Download" width="600" />
 
 ## How it works?
 
