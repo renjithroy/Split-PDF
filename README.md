@@ -9,8 +9,8 @@ The Split-PDF application allows you to extract specific pages from your PDF doc
 Here are some screenshots of the Split-PDF app in action:
 
 ![Image 1](https://i.imgur.com/m2hel3l.gif)
-![Image 2](https://i.imgur.com/8mCab8I.png)
-![Image 3](https://i.imgur.com/dw5CuIE.png)
+![Image 2](https://i.imgur.com/PFdKBir.png)
+![Image 3](https://i.imgur.com/ZRHvj7S.png)
 
 ## How it works?
 
