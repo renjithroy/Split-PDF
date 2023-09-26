@@ -8,9 +8,9 @@ The Split-PDF application allows you to extract specific pages from your PDF doc
 
 Here are some screenshots of the Split-PDF app in action:
 
-<img src="screenshots/split-pdf-record.gif" alt="gif-demo" width="600" />
-<img src="screenshots/select-pdf.png" alt="Select PDF" width="600" />
-<img src="screenshots/select-pages.png" alt="Select Pages To Download" width="600" />
+![Image 1](https://i.imgur.com/m2hel3l.gif)
+![Image 2](https://i.imgur.com/8mCab8I.png)
+![Image 3](https://i.imgur.com/dw5CuIE.png)
 
 ## How it works?
 
@@ -42,3 +42,7 @@ The application is built using React for the frontend and Node.js for the backen
 6. Access the application in your browser at `http://localhost:3000`.
 
 **Please note:** Make sure to have Node.js and npm installed on your machine before running the application.
+
+## Contact
+
+If you have any questions or want to reach out to the me, feel free to contact me at [renjithroy06@gmail.com](mailto:renjithroy06@gmail.com).
