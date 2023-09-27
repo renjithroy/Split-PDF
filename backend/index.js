@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Import required modules and libraries
 const path = require('path');
 const express = require('express');
@@ -7,6 +9,14 @@ const { PDFDocument, rgb } = require('pdf-lib');
 const fs = require('fs'); // fs module to work with the file system
 
 const app = express();
+
+
+// Check if the directory exists, and create it if not
+const uploadDirectory = './uploads';
+
+if (!fs.existsSync(uploadDirectory)) {
+    fs.mkdirSync(uploadDirectory);
+}
 
 // Middleware setup
 
@@ -110,7 +120,9 @@ app.get('/api/:filename', (req, res) => {
     res.sendFile(filePath);
 });
 
+const port = process.env.PORT || 5000;
+
 // Start the server and listen on port 5000
-app.listen(5000, () => {
+app.listen(port, () => {
     console.log("Server is up and running on port 5000");
 });

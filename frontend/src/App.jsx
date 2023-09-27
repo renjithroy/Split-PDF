@@ -109,7 +109,9 @@ export default function App() {
     try {
       // Make a POST request to the backend to process the selected pages and return the modified PDF
       // local version: http://localhost:5000/api/upload
-      const response = await axios.post("https://split-pdf-backend.onrender.com/api/upload", formData, {
+      // heroku: https://salty-fortress-70798-fa053f5fd399.herokuapp.com/
+      // render(working): https://split-pdf-backend.onrender.com/api/upload
+      const response = await axios.post("https://salty-fortress-70798-fa053f5fd399.herokuapp.com/api/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         params: selectedPagesData, // Pass selectedPagesData as query params
         responseType: 'blob', // Tell axios to treat the response as a blob
