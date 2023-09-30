@@ -8,8 +8,9 @@ export default function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [numPages, setNumPages] = useState(null);
   const [selectedPages, setSelectedPages] = useState([]);
-  const [buttonText, setButtonText] = useState("Select a PDF to continue");
+  const [buttonText, setButtonText] = useState("Select PDF file");
   const [downloadMessage, setDownloadMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   
   // Create a reference to the file input element
   const fileInputRef = useRef(null);
@@ -18,11 +19,14 @@ export default function App() {
   useEffect(() => {
     if (selectedFile) {
       const reader = new FileReader(); // Using client-side JS to read file.
-
+      console.log(selectedFile);
       reader.onload = async () => {  // after file reading is complete
         const pdfBuffer = reader.result;  //contains the data that has been read from the file
         try {
-          
+          if (selectedFile.size > 2 * 1024 * 1024) {
+            // throw "File size cannot exceed 2MB";
+            throw new Error("File size cannot exceed 2MB");
+          }
           // Load the PDF document uploaded by user using pdf-lib
           const pdfDoc = await PDFDocument.load(pdfBuffer);
           
@@ -31,10 +35,10 @@ export default function App() {
           // console.log("Frontend Page no: " + numPages);
           setNumPages(numPages);
         
-        } catch {
+        } catch(error) {
           
           // If there is an error in loading the PDF, handle it and show an alert to the user
-          alert("Only PDF file type is supported");
+          alert(error.message);
 
           // Reset the file input value and clear all state variables related to the selected file
           if (fileInputRef.current) {
@@ -44,6 +48,7 @@ export default function App() {
           setSelectedFile(null);
           setNumPages(null);
           setSelectedPages([]);
+          setButtonText("Select PDF file");
           return;
         }
       };
@@ -55,12 +60,19 @@ export default function App() {
 
   // Function to handle file selection when a new file is chosen
   const handleFileChange = (event) => {
+    
+    setNumPages(null);
+    setSelectedPages([]);
     setSelectedFile(event.target.files[0]);
 
     if (selectedPages.length === 0) {
       setButtonText("Select at least one page to continue");
     } else {
       setButtonText("Download Modified PDF");
+    }
+
+    if(!event.target.files[0]){
+      setButtonText("Select PDF file");
     }
 
   }; //this triggers the selectedFile useEffect
@@ -97,6 +109,12 @@ export default function App() {
       return;
     }
 
+    if (selectedPages.length === 0) {
+      return;
+    }
+
+    setIsLoading(true);
+
     // Create a FormData object to prepare the file for sending to the backend
     const formData = new FormData();
     formData.append("pdfFile", selectedFile);
@@ -109,16 +127,13 @@ export default function App() {
     try {
       // Make a POST request to the backend to process the selected pages and return the modified PDF
       // local version: http://localhost:5000/api/upload
-      // heroku: https://salty-fortress-70798-fa053f5fd399.herokuapp.com/
+      // heroku: https://salty-fortress-70798-fa053f5fd399.herokuapp.com/api/upload
       // render(working): https://split-pdf-backend.onrender.com/api/upload
       const response = await axios.post("https://salty-fortress-70798-fa053f5fd399.herokuapp.com/api/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         params: selectedPagesData, // Pass selectedPagesData as query params
         responseType: 'blob', // Tell axios to treat the response as a blob
       });
-
-      // Log the response from the backend to the console
-      console.log(response.data);
 
       // Trigger the download of the modified PDF by creating a Blob and using a link
       const blob = new Blob([response.data], { type: 'application/pdf' });
@@ -154,35 +169,40 @@ export default function App() {
       fileInputRef.current.value = "";
       // Handle errors, show error messages, etc.
     }
+    finally {
+      setIsLoading(false); // Stop loading
+    }
 
     // Reset all state variables related to the selected file and pages after form submission
     setSelectedFile(null);
     setNumPages(null);
     setSelectedPages([]);
-    setButtonText("Select a PDF to continue");
+    setButtonText("Select PDF file");
   };
 
   return (
     <div>
     <div className="logo"><p className="logo-text"><span>S</span>plit<span className="pdf-letter-logo">PDF</span></p></div>
     <div className="main">
-      {/* Heading for the app */}
+        {/* Loading bar */}
+      {isLoading && <div className="loading-bar"></div>}
+        {/* Heading for the app */}
       <h1>Extract Pages from your <span className="pdf-letter-heading">PDF!</span></h1>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          {/* File input element */}
+            {/* File input element */}
           <input ref={fileInputRef} type="file" className="form-control-file" accept=".pdf" name="pdfFile" onChange={handleFileChange} />
           <br />
-          {/* Render the list of pages when the number of pages is known */}
+            {/* Render the list of pages when the number of pages is known */}
           {numPages !== null && (
             <div>
               <p>Select Pages to Include:</p>
-              {/* Render checkboxes for each page */}
+                {/* Render checkboxes for each page */}
               {Array.from({ length: numPages }, (_, index) => (
                 <div key={index} style={{ padding: '5px', paddingRight: '10px', display: 'inline-block' }}>
                   <label>
                     Page {index + 1}
-                    {/* Checkbox for each page */}
+                      {/* Checkbox for each page */}
                     <input
                       type="checkbox"
                       className="form-checkbox"
